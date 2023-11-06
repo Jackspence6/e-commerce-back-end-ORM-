@@ -40,6 +40,11 @@ router.get("/:id", async (req, res) => {
 				},
 			],
 		});
+		// Check to see if there is corresponding product to the Id being fetched
+		if (!productData) {
+			res.status(404).json("No product found matching this Id!");
+			return;
+		}
 		res.status(200).json(productData);
 	} catch (err) {
 		res.status(500).json(err);
