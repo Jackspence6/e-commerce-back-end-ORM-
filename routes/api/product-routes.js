@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const { Product, Category, Tag, ProductTag } = require("../../models");
 
-// get all products
+// Get all products
 router.get("/", async (req, res) => {
-	// find all products
+	// Finding all products
 	try {
 		const productData = await Product.findAll({
-			// Include associated Category & Tag
+			// Including associated Category & Tag
 			include: [
 				{
 					model: Category,
@@ -24,11 +24,11 @@ router.get("/", async (req, res) => {
 	}
 });
 
-// get one product
+// Get one product
 router.get("/:id", async (req, res) => {
 	try {
 		const productData = await Product.findByPk(req.params.id, {
-			// Include associated Category & Tag
+			// Including associated Category & Tag
 			include: [
 				{
 					model: Category,
@@ -40,7 +40,7 @@ router.get("/:id", async (req, res) => {
 				},
 			],
 		});
-		// Check to see if there is corresponding product to the Id being fetched
+		// Checking to see if there is corresponding product to the Id being fetched
 		if (!productData) {
 			res.status(404).json("No product found matching this Id!");
 			return;
@@ -51,11 +51,11 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
-// create new product
+// Create new product
 router.post("/", async (req, res) => {
 	await Product.create(req.body)
 		.then((product) => {
-			// if there's product tags, we need to create pairings to bulk create in the ProductTag model
+			// If there's product tags, we need to create pairings to bulk create in the ProductTag model
 			if (req.body.tagIds.length) {
 				const productTagIdArr = req.body.tagIds.map((tag_id) => {
 					return {
@@ -65,7 +65,7 @@ router.post("/", async (req, res) => {
 				});
 				return ProductTag.bulkCreate(productTagIdArr);
 			}
-			// if no product tags, just respond
+			// If no product tags, just respond
 			res.status(200).json(product);
 		})
 		.then((productTagIds) => res.status(200).json(productTagIds))
@@ -75,22 +75,22 @@ router.post("/", async (req, res) => {
 		});
 });
 
-// update product
+// Update product
 router.put("/:id", async (req, res) => {
-	// update product data
+	// Updating product data
 	await Product.update(req.body, {
 		where: {
 			id: req.params.id,
 		},
 	})
 		.then((product) => {
-			// find all associated tags from ProductTag
+			// Finding all associated tags from ProductTag
 			return ProductTag.findAll({ where: { product_id: req.params.id } });
 		})
 		.then((productTags) => {
-			// get list of current tag_ids
+			// Getting list of current tag_ids
 			const productTagIds = productTags.map(({ tag_id }) => tag_id);
-			// create filtered list of new tag_ids
+			// Creating filtered list of new tag_ids
 			const newProductTags = req.body.tagIds
 				.filter((tag_id) => !productTagIds.includes(tag_id))
 				.map((tag_id) => {
@@ -99,12 +99,12 @@ router.put("/:id", async (req, res) => {
 						tag_id,
 					};
 				});
-			// figure out which ones to remove
+			// Figuring out which ones to remove
 			const productTagsToRemove = productTags
 				.filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
 				.map(({ id }) => id);
 
-			// run both actions
+			// Running both actions
 			return Promise.all([
 				ProductTag.destroy({ where: { id: productTagsToRemove } }),
 				ProductTag.bulkCreate(newProductTags),
@@ -112,12 +112,11 @@ router.put("/:id", async (req, res) => {
 		})
 		.then((updatedProductTags) => res.json(updatedProductTags))
 		.catch((err) => {
-			// console.log(err);
 			res.status(400).json(err);
 		});
 });
 
-// delete one product by its `id` value
+// Delete one product by its Id value
 router.delete("/:id", async (req, res) => {
 	try {
 		const productData = await Product.destroy({
@@ -125,7 +124,7 @@ router.delete("/:id", async (req, res) => {
 				id: req.params.id,
 			},
 		});
-		// Check to see if there is corresponding product to the Id being deleted
+		// Checking to see if there is corresponding product to the Id being deleted
 		if (!productData) {
 			res.status(404).json("No product found matching this Id!");
 			return;
