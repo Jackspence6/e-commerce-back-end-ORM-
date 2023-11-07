@@ -16,7 +16,7 @@ sequelize
 	.sync({ force: false })
 	.then(() => {
 		app.listen(PORT, () => {
-			console.log(`App Now listening on port ${PORT}!`);
+			console.log(`App Now listening on port ${PORT}!🚀`);
 		});
 	})
 	// Catching any errors when syncing sequelize models to the db & turning on Server
