@@ -34,7 +34,7 @@ router.get("/:id", async (req, res) => {
 				},
 			],
 		});
-		// Checking to see if there is corresponding Tag to the Id being fetched
+		// Checking to see if there is a corresponding Tag to the Id being fetched
 		if (!tagData) {
 			res.status(404).json("No Tag found matching this Id!");
 			return;
@@ -63,7 +63,7 @@ router.put("/:id", async (req, res) => {
 				id: req.params.id,
 			},
 		});
-		// Checking to see if there is corresponding Tag to the Id being Updated
+		// Checking to see if there is a corresponding Tag to the Id being Updated
 		if (!tagData) {
 			res.status(404).json("No Tag found matching this Id!");
 			return;
@@ -74,8 +74,23 @@ router.put("/:id", async (req, res) => {
 	}
 });
 
-router.delete("/:id", (req, res) => {
-	// delete on tag by its `id` value
+// Delete one tag by its Id value
+router.delete("/:id", async (req, res) => {
+	try {
+		const tagData = await Tag.destroy({
+			where: {
+				id: req.params.id,
+			},
+		});
+		// Checking to see if there is a corresponding product to the Id being deleted
+		if (!productData) {
+			res.status(404).json("No Tag found matching this Id!");
+			return;
+		}
+		res.status(200).json(tagData);
+	} catch (err) {
+		res.status(500).json(err);
+	}
 });
 
 module.exports = router;

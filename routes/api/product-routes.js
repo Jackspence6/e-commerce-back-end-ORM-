@@ -40,7 +40,7 @@ router.get("/:id", async (req, res) => {
 				},
 			],
 		});
-		// Checking to see if there is corresponding product to the Id being fetched
+		// Checking to see if there is a corresponding product to the Id being fetched
 		if (!productData) {
 			res.status(404).json("No product found matching this Id!");
 			return;
@@ -90,7 +90,7 @@ router.put("/:id", async (req, res) => {
 		.then((productTags) => {
 			// Getting list of current tag_ids
 			const productTagIds = productTags.map(({ tag_id }) => tag_id);
-			// Creating filtered list of new tag_ids
+			// Creating a filtered list of new tag_ids
 			const newProductTags = req.body.tagIds
 				.filter((tag_id) => !productTagIds.includes(tag_id))
 				.map((tag_id) => {
@@ -124,7 +124,7 @@ router.delete("/:id", async (req, res) => {
 				id: req.params.id,
 			},
 		});
-		// Checking to see if there is corresponding product to the Id being deleted
+		// Checking to see if there is a corresponding product to the Id being deleted
 		if (!productData) {
 			res.status(404).json("No product found matching this Id!");
 			return;
