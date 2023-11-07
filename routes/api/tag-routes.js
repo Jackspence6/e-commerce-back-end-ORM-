@@ -82,8 +82,8 @@ router.delete("/:id", async (req, res) => {
 				id: req.params.id,
 			},
 		});
-		// Checking to see if there is a corresponding product to the Id being deleted
-		if (!productData) {
+		// Checking to see if there is a corresponding Tag to the Id being deleted
+		if (!tagData) {
 			res.status(404).json("No Tag found matching this Id!");
 			return;
 		}
