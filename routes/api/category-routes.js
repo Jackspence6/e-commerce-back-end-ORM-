@@ -33,7 +33,7 @@ router.get("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding Category to the Id being fetched
 		if (!categoryData) {
-			res.status(404).json("No Category found matching this Id!");
+			res.status(404).json({ message: "No Category found matching this Id!" });
 			return;
 		}
 		res.status(200).json(categoryData);
@@ -62,7 +62,7 @@ router.put("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding Category to the Id being Updated
 		if (!categoryData) {
-			res.status(404).json("No Category found matching this Id!");
+			res.status(404).json({ message: "No Category found matching this Id!" });
 			return;
 		}
 		res.status(200).json(categoryData);
@@ -81,8 +81,7 @@ router.delete("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding Category to the Id being Deleted
 		if (!categoryData) {
-			res.status(404).json("No Category found matching this Id!");
-			return;
+			res.status(404).json({ message: "No Category found matching this Id!" });
 		}
 		res.status(200).json(categoryData);
 	} catch (err) {
