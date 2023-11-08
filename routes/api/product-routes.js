@@ -42,7 +42,7 @@ router.get("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding product to the Id being fetched
 		if (!productData) {
-			res.status(404).json("No product found matching this Id!");
+			res.status(404).json({ message: "No product found matching this Id!" });
 			return;
 		}
 		res.status(200).json(productData);
@@ -126,7 +126,7 @@ router.delete("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding product to the Id being deleted
 		if (!productData) {
-			res.status(404).json("No product found matching this Id!");
+			res.status(404).json({ message: "No product found matching this Id!" });
 			return;
 		}
 		res.status(200).json(productData);
