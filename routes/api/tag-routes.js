@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding Tag to the Id being fetched
 		if (!tagData) {
-			res.status(404).json("No Tag found matching this Id!");
+			res.status(404).json({ message: "No Tag found matching this Id!" });
 			return;
 		}
 		res.status(200).json(tagData);
@@ -65,7 +65,7 @@ router.put("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding Tag to the Id being Updated
 		if (!tagData) {
-			res.status(404).json("No Tag found matching this Id!");
+			res.status(404).json({ message: "No Tag found matching this Id!" });
 			return;
 		}
 		res.status(200).json(tagData);
@@ -84,8 +84,7 @@ router.delete("/:id", async (req, res) => {
 		});
 		// Checking to see if there is a corresponding Tag to the Id being deleted
 		if (!tagData) {
-			res.status(404).json("No Tag found matching this Id!");
-			return;
+			res.status(404).json({ message: "No Tag found matching this Id!" });
 		}
 		res.status(200).json(tagData);
 	} catch (err) {
